@@ -1,0 +1,103 @@
+.sidebar {
+  font-family: "Montserrat", Arial, sans-serif;
+  color: #fff;
+  text-align: center;
+  background: #0f3057;
+  background: -webkit-linear-gradient(to bottom, #008891, #0f3057);
+  background: linear-gradient(to bottom, #008891, #0f3057);
+}
+
+@media (min-width: 1024px) {
+  .sidebar {
+    height: 100%;
+    width: 15%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding: 10px 25px;
+  }
+}
+
+.sidebar .brand {
+  display: inline-block;
+  border: 1px solid #fff;
+  margin: 25px 0 10px;
+  padding: 25px;
+}
+
+.sidebar .brand h1 {
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 48px;
+  margin: 0;
+  font-weight: 500;
+}
+
+.sidebar .brand div {
+  font-size: 10px;
+  margin-top: -5px;
+  padding-top: 5px;
+  border-top: 1px dotted #fff;
+}
+
+.sidebar p {
+  margin-top: 0;
+  font-size: 10px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+@media (min-width: 320px) {
+  .sidebar ul {
+    text-align: center;
+    margin: 10px auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar ul {
+    margin: 55px 0 0;
+  }
+}
+
+@media (min-width: 320px) {
+  .sidebar ul li {
+    display: inline-block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar ul li {
+    display: block;
+  }
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #fff;
+  padding: 10px;
+  display: block;
+}
+
+.sidebar p:last-child {
+  position: absolute;
+  bottom: 20px;
+  text-align: center;
+  width: 90%;
+}
+
+@media (min-width: 320px) {
+  .sidebar p:last-child {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar p:last-child {
+    display: block;
+  }
+}
