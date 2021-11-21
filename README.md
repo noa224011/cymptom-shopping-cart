@@ -1,65 +1,27 @@
-![](assets/cymptom_logo_new.svg)
-&nbsp;
+# CymptomShoppingCart
 
-# Shopping cart task summary
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.3.
 
-You are going to build a simple "shopping" page where the user can enter product names he wishes to buy, and receive suggestions based on his input (auto-complete). When an item is selected, that item will be added to the cart dynamically.
+## Development server
 
-Note that whenever the user types something, a request will be sent to a NodeJS server, that will filter and fetch the data based on the user's input.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Frontend Requirements
+## Code scaffolding
 
-The framework we are going to use on the frontend will be Angular 8+.
-Build a webpage containing the following components:
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-### Autocomplete
+## Build
 
-Build an autocomplete component that contains the following features:
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-- Fetches autocomplete data from NodeJS server. On each keystroke, new data will be fetched from the server (showing at least 20 products), the data must be filtered on the server side. For each change in the autocomplete, new data will be fetched from the server.
+## Running unit tests
 
-- When the user hits enter to select an item, the selected product from the autocomplete will be added to the cart table. Make sure the up/down arrow keys allow you to navigate between the autocomplete suggestions (focusing and highlighting an item). The Enter key will add the selected item to the cart table. The user may also use the mouse to select items.
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-- Make sure when navigating between items, if an item is selected by the user and out of the viewport, it will automatically scroll to it.
+## Running end-to-end tests
 
-- **Make sure to use Angular framework system features, like data binding, inputs, outputs, services, directives and pipes (if and as required, use whatever fits the needs)**.
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
+## Further help
 
-**DO NOT USE ANY NPM PACKAGE FOR THE AUTOCOMPLETE, YOU MUST BUILD THE AUTOCOMPLETE COMPONENT BY YOURSELF.**
-
-Here is an example of google maps autocomplete component:
-
-![](assets/autocomplete_example.png)
-
-### Shopping items table
-
-Build a simple HTML table which renders only the items added to the cart table from the autocomplete. It must show the following rows: "Name, Price, Picture (`<img>`)".  The user may also remove items from the cart table using an 'X' button for each row.
-
-## Backend Requirements
-
-You must use NodeJS with Express for the server side.
-
-You are provided a file called 'products.json' (found under `assets/products.json`) in the repository, use it to load the product list into your NodeJS server.
-
-On the server side, simply create an API which allows fetching the products that match the filtered keyword.
-
-For example, if the user types the query "co", all the products matched for this phrase will be returned with their data (for example: coat, gaming console, tobacco) .
-
-## General Requirements
-
-- You should work with GitHub repository to store and manage your code.
-- You should be using Angular 8+ and NodeJS typescript.
-- You are required to write your code using OOP concepts
-- Document your code as much as needed
-- **Make sure your code is easy to read and understand.**
-
-## Before starting this task
-
-- DO NOT FORK THIS REPOSITORY.
-- Clone this repository, open up your own repository on GitHub and change the remote to your new repository (`git remote set-url origin YOUR_REPOSITORY_URL`). This will allow you to push to your own repository instead of Cymptom.
-- Send a link to your new github repository to: shay@cymptom.com.
-
-**Good luck!**
-
-*An example of the task*
-![Suggested layout](assets/suggested_layout.png)
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
