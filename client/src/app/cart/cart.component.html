@@ -4,35 +4,24 @@
       <th scope="col">Product Name</th>
       <th scope="col">Image</th>
       <th scope="col">Price</th>
+      <th scope="col"></th>
     </tr>
   </thead>
+
   <tbody>
-    <tr>
-      <td data-label="Account">Duracell - AAA Batteries (4-Pack)</td>
-      <td data-label="image">
-        <img
-          class="image"
-          src="http://img.bbystatic.com/BestBuy_US/images/products/4390/43900_sa.jpg"
-          alt=""
-        />
+    <p *ngIf="cartItems.length === 0">OOPS! no items in your cart.</p>
+
+    <tr *ngFor="let item of cartItems">
+      <td data-label="Account">
+        {{ item.name }}
       </td>
-      <!-- <td data-label="Due Date">04/01/2016</td> -->
-      <td data-label="Amount">$1,190</td>
-    </tr>
-    <tr>
-      <td scope="row" data-label="Account">Visa - 6076</td>
-      <td data-label="Due Date">03/01/2016</td>
-      <td data-label="Amount">$2,443</td>
-    </tr>
-    <tr>
-      <td scope="row" data-label="Account">Corporate AMEX</td>
-      <td data-label="Due Date">03/01/2016</td>
-      <td data-label="Amount">$1,181</td>
-    </tr>
-    <tr>
-      <td scope="row" data-label="Acount">Visa - 3412</td>
-      <td data-label="Due Date">02/01/2016</td>
-      <td data-label="Amount">$842</td>
+      <td data-label="image">
+        <img class="image" [src]="item.image" alt="" />
+      </td>
+      <td data-label="Amount">${{ item.price }}</td>
+      <td data-label="delete">
+        <i class="bi bi-trash trash" (click)="deleteItem(item.sku)"></i>
+      </td>
     </tr>
   </tbody>
 </table>
