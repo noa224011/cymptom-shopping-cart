@@ -2,14 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-
-export interface IProducts {
-  sku: number;
-  name: string;
-  type: string;
-  price: number;
-  image: string;
-}
+import { IProduct } from 'src/app/interfaces/IProduct';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +12,7 @@ export class PostsService {
 
   searchProducts(query: string) {
     return this.http
-      .post<{ searchQuery: Array<IProducts> }>(
+      .post<{ searchQuery: Array<IProduct> }>(
         `${environment.baseUrl}autocomplete`,
         { searchQuery: query },
         {

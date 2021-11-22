@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PostsService } from '../services/posts/posts.service';
-import { IProducts } from '../services/posts/posts.service';
+import { IProduct } from '../interfaces/IProduct';
 
 @Component({
   selector: 'app-autocomplete',
@@ -8,7 +8,7 @@ import { IProducts } from '../services/posts/posts.service';
   styleUrls: ['./autocomplete.component.css'],
 })
 export class AutocompleteComponent implements OnInit {
-  productsNames: Array<IProducts> = [];
+  productsNames: Array<IProduct> = [];
   hasQuery: Boolean = false;
 
   constructor(private postsService: PostsService) {}

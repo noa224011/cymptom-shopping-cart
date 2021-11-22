@@ -9,9 +9,6 @@ module.exports = {
       (product) => product.name === productName
     );
 
-    console.log("productName:", productName);
-    console.log("finalProductArray:", finalProductArray);
-
     if (finalProductArray.length === 0) {
       res.status(404).json({
         message: "NOT FOUND",
