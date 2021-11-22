@@ -10,9 +10,7 @@ module.exports = {
     );
 
     if (finalProductArray.length === 0) {
-      res.status(404).json({
-        message: "NOT FOUND",
-      });
+      throw { status: 404, message: "NOT FOUND" };
     } else {
       const finalProduct = finalProductArray[0];
 
@@ -20,6 +18,7 @@ module.exports = {
         name: finalProduct.name,
         image: finalProduct.image,
         price: finalProduct.price,
+        sku: finalProduct.sku,
       };
 
       res.status(200).json({

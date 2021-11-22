@@ -60,5 +60,36 @@
         "model": "MN1500B4Z",
         "url": "http://www.bestbuy.com/site/duracell-aa-1-5v-coppertop-batteries-4-pack/48530.p?id=1099385268988&skuId=48530&cmp=RMXCC",
         "image": "http://img.bbystatic.com/BestBuy_US/images/products/4853/48530_sa.jpg"
+    },
+    {
+        "sku": 1003296,
+        "name": "M-Audio - Nova Condenser Microphone - Silver",
+        "type": "HardGood",
+        "price": 99.99,
+        "upc": "694318014851",
+        "category": [
+            {
+                "id": "abcat0207000",
+                "name": "Musical Instruments"
+            },
+            {
+                "id": "pcmcat152100050035",
+                "name": "Microphones & Live Sound"
+            },
+            {
+                "id": "pcmcat251600050003",
+                "name": "Microphones & Accessories"
+            },
+            {
+                "id": "pcmcat152100050038",
+                "name": "Microphones"
+            }
+        ],
+        "shipping": 0,
+        "description": "M-AUDIO Nova Condenser Microphone: 1.1\" evaporated gold diaphragm; solid brass body and capsule; 20Hz - 18kHz frequency response; hard mount and soft case included",
+        "manufacturer": "M-Audio",
+        "model": "NOVA",
+        "url": "http://www.bestbuy.com/site/m-audio-nova-condenser-microphone-silver/1003296.p?id=1219460764049&skuId=1003296CC",
+        "image": "http://img.bbystatic.com/BestBuy_US/images/products/1003/1003296_sa.jpg"
     }
 ]
