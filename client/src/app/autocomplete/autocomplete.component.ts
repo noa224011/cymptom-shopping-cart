@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PostsService } from '../services/posts/posts.service';
+import { GetsService } from '../services/gets/gets.service';
 import { IProduct } from '../interfaces/IProduct';
 
 @Component({
@@ -9,14 +10,19 @@ import { IProduct } from '../interfaces/IProduct';
 })
 export class AutocompleteComponent implements OnInit {
   productsNames: Array<IProduct> = [];
+  input: string = '';
   hasQuery: Boolean = false;
 
-  constructor(private postsService: PostsService) {}
+  constructor(
+    private postsService: PostsService,
+    private getsService: GetsService
+  ) {}
 
   ngOnInit(): void {}
 
   sendInput(event: any) {
     const query: string = event.target.value;
+    this.input = query;
 
     let matchSpaces: any = query.match(/\s*/);
     if (matchSpaces[0] === query) {
@@ -28,7 +34,12 @@ export class AutocompleteComponent implements OnInit {
     this.postsService.searchProducts(query.trim()).subscribe((results) => {
       this.productsNames = results;
       this.hasQuery = true;
-      console.log('search results:', results);
+    });
+  }
+
+  getInputProduct() {
+    this.getsService.getProductByName(this.input).subscribe((result) => {
+      console.log(result);
     });
   }
 }

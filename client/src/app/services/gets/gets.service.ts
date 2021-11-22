@@ -11,7 +11,7 @@ export class GetsService {
   constructor(private http: HttpClient) {}
 
   getProductByName(productName: string) {
-    this.http
+    return this.http
       .get<{ product: IProduct }>(
         `${environment.baseUrl}getProduct/${productName}`
       )
