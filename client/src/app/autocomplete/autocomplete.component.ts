@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PostsService } from '../services/posts/posts.service';
+import { IProducts } from '../services/posts/posts.service';
 
 @Component({
   selector: 'app-autocomplete',
@@ -6,7 +8,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./autocomplete.component.css'],
 })
 export class AutocompleteComponent implements OnInit {
-  constructor() {}
+  productsNames: Array<IProducts> = [];
+  hasQuery: Boolean = false;
+
+  constructor(private postsService: PostsService) {}
 
   ngOnInit(): void {}
+
+  sendInput(event: any) {
+    const query: string = event.target.value;
+
+    let matchSpaces: any = query.match(/\s*/);
+    if (matchSpaces[0] === query) {
+      this.productsNames = [];
+      this.hasQuery = false;
+      return;
+    }
+
+    this.postsService.searchProducts(query.trim()).subscribe((results) => {
+      this.productsNames = results;
+      this.hasQuery = true;
+      console.log('search results:', results);
+    });
+  }
 }

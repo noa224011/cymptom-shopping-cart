@@ -1,10 +1,28 @@
-<div class="input-group w-25">
+<div class="input-group w-25 search-container">
   <input
     type="search"
     class="form-control rounded"
     placeholder="Search"
     aria-label="Search"
     aria-describedby="search-addon"
+    (keyup)="sendInput($event)"
   />
   <button type="button" class="btn btn-outline-primary">search</button>
+</div>
+
+<div class="results-container">
+  <section class="search-results">
+    <p *ngIf="productsNames.length < 1 && hasQuery">
+      Sorry. No Matching Results.
+    </p>
+    <ng-template
+      ngFor
+      let-productsNames
+      [ngForOf]="productsNames"
+      let-i="index"
+    >
+      <hr *ngIf="i > 0" />
+      <p>{{ productsNames }}</p>
+    </ng-template>
+  </section>
 </div>

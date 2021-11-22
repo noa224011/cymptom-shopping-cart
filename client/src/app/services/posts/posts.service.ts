@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 export interface IProducts {
   sku: number;
@@ -18,8 +19,8 @@ export class PostsService {
 
   searchProducts(query: string) {
     return this.http
-      .post<{ searchQuery: string }>(
-        '',
+      .post<{ searchQuery: Array<IProducts> }>(
+        `${environment.baseUrl}autocomplete`,
         { searchQuery: query },
         {
           headers: new HttpHeaders({ 'Context-type': 'application/json' }),

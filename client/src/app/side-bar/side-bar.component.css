@@ -1,5 +1,5 @@
 .sidebar {
-  font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   color: #fff;
   text-align: center;
   background: #0f3057;
@@ -28,7 +28,6 @@
 }
 
 .sidebar .brand h1 {
-  font-family: "Montserrat", Arial, sans-serif;
   font-size: 48px;
   margin: 0;
   font-weight: 500;
