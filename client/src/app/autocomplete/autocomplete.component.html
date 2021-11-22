@@ -6,11 +6,12 @@
     aria-label="Search"
     aria-describedby="search-addon"
     (keyup)="sendInput($event)"
+    (keyup.enter)="addItemToCart($event)"
   />
   <button
     type="submit"
     class="btn btn-outline-primary"
-    (click)="getInputProduct()"
+    (click)="getItemFromBackend(this.input)"
   >
     search
   </button>
@@ -28,7 +29,9 @@
       let-i="index"
     >
       <hr *ngIf="i > 0" />
-      <p>{{ productsNames }}</p>
+      <p class="product-name" (click)="addItemToCart($event)">
+        {{ productsNames }}
+      </p>
     </ng-template>
   </section>
 </div>
