@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { PostsService } from '../services/posts/posts.service';
 import { GetsService } from '../services/gets/gets.service';
 import { IProduct } from '../interfaces/IProduct';
@@ -12,6 +12,7 @@ import { CartDataService } from '../services/cart-data/cart-data.service';
 export class AutocompleteComponent implements OnInit {
   productsNames: Array<IProduct> = [];
   cart: Array<IProduct> = [];
+  cursor: number = 0;
   input: string = '';
   hasQuery: Boolean = false;
   productError: any = '';
@@ -59,5 +60,21 @@ export class AutocompleteComponent implements OnInit {
     // for <p> element
     const itemName: string = event.target.textContent;
     this.getItemFromBackend(itemName);
+  }
+
+  @HostListener('window:keyup.arrowup', ['$event'])
+  handleKeyUp(event: KeyboardEvent) {
+    if (this.cursor > 0) {
+      this.cursor - 1;
+    }
+    console.log('arrowup');
+  }
+
+  @HostListener('window:keyup.arrowdown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if (this.cursor < this.productsNames.length - 1) {
+      this.cursor + 1;
+    }
+    console.log('arrowdown');
   }
 }

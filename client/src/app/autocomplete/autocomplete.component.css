@@ -27,6 +27,7 @@
   max-width: 600px;
   width: 65%;
   margin: 20px auto 0 auto;
+  overflow-y: auto;
 }
 
 hr {
@@ -37,6 +38,10 @@ hr {
 
 p {
   margin: 10px 0;
+}
+
+.selected {
+  background-color: lightskyblue;
 }
 
 .product-name {

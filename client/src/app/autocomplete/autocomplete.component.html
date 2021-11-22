@@ -29,7 +29,11 @@
       let-i="index"
     >
       <hr *ngIf="i > 0" />
-      <p class="product-name" (click)="addItemToCart($event)">
+      <p
+        (click)="addItemToCart($event)"
+        *ngFor="let name of productsNames; let i = index"
+        [ngClass]="{ 'product-name': true, selected: cursor === i }"
+      >
         {{ productsNames }}
       </p>
     </ng-template>
