@@ -19,7 +19,7 @@ export class CartComponent implements OnInit {
     });
   }
 
-  deleteItem(sku: string) {
+  deleteItem(sku: number) {
     console.log(sku);
   }
 }
