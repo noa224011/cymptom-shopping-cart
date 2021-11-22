@@ -8,6 +8,7 @@ import { SideBarComponent } from './side-bar/side-bar.component';
 import { CartComponent } from './cart/cart.component';
 import { CymptomIconComponent } from './cymptom-icon/cymptom-icon.component';
 import { CartIconComponent } from './cart-icon/cart-icon.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,13 +17,10 @@ import { CartIconComponent } from './cart-icon/cart-icon.component';
     SideBarComponent,
     CartComponent,
     CymptomIconComponent,
-    CartIconComponent
+    CartIconComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
