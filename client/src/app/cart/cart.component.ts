@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from '../interfaces/IProduct';
 import { CartDataService } from '../services/cart-data/cart-data.service';
+import { GetsService } from '../services/gets/gets.service';
 
 @Component({
   selector: 'app-cart',
@@ -9,8 +10,12 @@ import { CartDataService } from '../services/cart-data/cart-data.service';
 })
 export class CartComponent implements OnInit {
   cartItems: Array<IProduct> = [];
+  productError: any = '';
 
-  constructor(private _cartDataService: CartDataService) {}
+  constructor(
+    private _cartDataService: CartDataService,
+    private _getsService: GetsService
+  ) {}
 
   ngOnInit(): void {
     this._cartDataService._cartDataSource$.subscribe((cart) => {
@@ -20,6 +25,16 @@ export class CartComponent implements OnInit {
   }
 
   deleteItem(sku: number) {
-    console.log(sku);
+    this._getsService.getProductById(sku).subscribe({
+      next: (result) => {
+        const itemIndex = this.cartItems.findIndex(
+          (item) => item.sku === result.sku
+        );
+        if (itemIndex !== -1) {
+          this.cartItems.splice(itemIndex, 1);
+        }
+      },
+      error: (error) => (this.productError = error),
+    });
   }
 }

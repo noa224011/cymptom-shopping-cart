@@ -17,4 +17,12 @@ export class GetsService {
       )
       .pipe(map((data) => data.product));
   }
+
+  getProductById(sku: number) {
+    return this.http
+      .get<{ product: IProduct }>(
+        `${environment.baseUrl}getProduct/byId/${sku}`
+      )
+      .pipe(map((data) => data.product));
+  }
 }
