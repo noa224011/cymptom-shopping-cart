@@ -1,4 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnInit,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core';
 import { PostsService } from '../services/posts/posts.service';
 import { GetsService } from '../services/gets/gets.service';
 import { IProduct } from '../interfaces/IProduct';
@@ -9,26 +15,36 @@ import { CartDataService } from '../services/cart-data/cart-data.service';
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.css'],
 })
-export class AutocompleteComponent implements OnInit {
+export class AutocompleteComponent implements AfterViewInit, OnInit {
   productsNames: Array<IProduct> = [];
   cart: Array<IProduct> = [];
   cursor: number = -1;
   input: string = '';
-  valueInput: string = '';
+  valueInput: string | null | undefined = '';
   hasQuery: Boolean = false;
+  isSearched: Boolean = false;
   productError: any = '';
+  activeItem: string | null | undefined = '';
+  inputRef!: HTMLInputElement;
 
   constructor(
     private _postsService: PostsService,
     private _getsService: GetsService,
-    private _cartDataService: CartDataService
+    private _cartDataService: CartDataService,
+    private _el: ElementRef
   ) {}
 
   ngOnInit(): void {}
 
+  ngAfterViewInit() {
+    const input: HTMLInputElement = this._el.nativeElement as HTMLInputElement;
+    this.inputRef = input;
+  }
+
   sendInput(event: any) {
     const query: string = event.target.value;
     this.input = query;
+    this.activeItem = query;
 
     if (this.valueInput === '') {
       this.productsNames = [];
@@ -47,10 +63,11 @@ export class AutocompleteComponent implements OnInit {
       console.log('results:', results);
       this.productsNames = results;
       this.hasQuery = true;
+      this.isSearched = false;
     });
   }
 
-  getItemFromBackend(itemName: string) {
+  getItemFromBackend(itemName: string | null | undefined) {
     this._getsService.getProductByName(itemName).subscribe({
       next: (result) => {
         this.cart.push(result);
@@ -61,13 +78,28 @@ export class AutocompleteComponent implements OnInit {
     });
   }
 
-  //TODO: Fix bug! sends req to backend with % for some reason
-  addItemToCart(event: any) {
-    // for <input> element
-    // const itemName: string = event.target.value;
-    // for <p> element
-    const itemName: string = event.target.textContent;
-    this.getItemFromBackend(itemName);
+  addItemToCartByEnter() {
+    this.getItemFromBackend(this.activeItem);
+    this.cleanUp();
+  }
+
+  addItemToCartByClick(event: any) {
+    this.getItemFromBackend(event.target.textContent);
+    this.cleanUp();
+  }
+
+  cleanUp() {
+    this.valueInput = '';
+    this.isSearched = true;
+  }
+
+  getItemAt = (index: number) => {
+    return document.querySelector(`#autocomplete-result-${index}`)?.textContent;
+  };
+
+  renderSelectedItemOnInput() {
+    this.activeItem = this.getItemAt(this.cursor);
+    this.valueInput = this.activeItem;
   }
 
   @HostListener('window:keyup.arrowup', ['$event'])
@@ -75,8 +107,7 @@ export class AutocompleteComponent implements OnInit {
     if (this.cursor > 0) {
       this.cursor -= 1;
     }
-    console.log('arrowup');
-    console.log('cursur', this.cursor);
+    this.renderSelectedItemOnInput();
   }
 
   @HostListener('window:keyup.arrowdown', ['$event'])
@@ -84,9 +115,14 @@ export class AutocompleteComponent implements OnInit {
     if (this.cursor < this.productsNames.length - 1) {
       this.cursor += 1;
     }
-    console.log('condition:', this.cursor < this.productsNames.length - 1);
-    console.log('productsNames', this.productsNames);
-    console.log('cursur', this.cursor);
-    console.log('arrowdown');
+    this.renderSelectedItemOnInput();
+  }
+
+  // When clicking outside of the component, clean the input
+  @HostListener('document:click', ['$event'])
+  clickout(event: { target: any }) {
+    if (!this._el.nativeElement.contains(event.target)) {
+      this.cleanUp();
+    }
   }
 }
