@@ -1,21 +1,16 @@
-import {
-  Component,
-  HostListener,
-  OnInit,
-  ElementRef,
-  AfterViewInit,
-} from '@angular/core';
+import { Component, HostListener, OnInit, ElementRef } from '@angular/core';
 import { PostsService } from '../services/posts/posts.service';
 import { GetsService } from '../services/gets/gets.service';
 import { IProduct } from '../interfaces/IProduct';
 import { CartDataService } from '../services/cart-data/cart-data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-autocomplete',
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.css'],
 })
-export class AutocompleteComponent implements AfterViewInit, OnInit {
+export class AutocompleteComponent implements OnInit {
   productsNames: Array<IProduct> = [];
   cart: Array<IProduct> = [];
   cursor: number = -1;
@@ -24,23 +19,19 @@ export class AutocompleteComponent implements AfterViewInit, OnInit {
   hasQuery: Boolean = false;
   doesSearch: Boolean = true;
   isSearched: Boolean = false;
+  isItemHover: Boolean = false;
   productError: any = '';
   activeItem: string | null | undefined = '';
-  inputRef!: HTMLInputElement;
 
   constructor(
     private _postsService: PostsService,
     private _getsService: GetsService,
     private _cartDataService: CartDataService,
-    private _el: ElementRef
+    private _el: ElementRef,
+    private _toastr: ToastrService
   ) {}
 
   ngOnInit(): void {}
-
-  ngAfterViewInit() {
-    const input: HTMLInputElement = this._el.nativeElement as HTMLInputElement;
-    this.inputRef = input;
-  }
 
   sendInput(event: any) {
     if (!this.doesSearch) return;
@@ -48,17 +39,12 @@ export class AutocompleteComponent implements AfterViewInit, OnInit {
     const query: string = event.target.value;
     this.input = query;
     this.activeItem = query;
-    console.log(this.inputRef.textContent);
 
-    if (this.inputRef.textContent === '') {
+    if (this.valueInput === '') {
       console.log('is this happening?');
       this.productsNames = [];
       this.hasQuery = false;
-
-      this.isSearched = true;
-      this.cursor = -1;
-      this.doesSearch = true;
-      // this.cleanUp();
+      this.cleanUp();
       return;
     }
 
@@ -71,8 +57,8 @@ export class AutocompleteComponent implements AfterViewInit, OnInit {
 
     this._postsService.searchProducts(query.trim()).subscribe((results) => {
       this.productsNames = results;
-      this.hasQuery = true;
       this.isSearched = false;
+      this.hasQuery = true;
     });
   }
 
@@ -83,7 +69,11 @@ export class AutocompleteComponent implements AfterViewInit, OnInit {
         this._cartDataService.sendCart(this.cart);
         console.log(result);
       },
-      error: (error) => (this.productError = error),
+      error: (error) => {
+        this.productError = error;
+        this.showError();
+        this.isSearched = true;
+      },
     });
   }
 
@@ -118,12 +108,19 @@ export class AutocompleteComponent implements AfterViewInit, OnInit {
     this.valueInput = this.activeItem;
   }
 
+  scrollToSelecetedItem(index: number) {
+    const element: any = document.querySelector(
+      `#autocomplete-result-${index}`
+    );
+    const scrollElement: any = document.querySelector('.results-container');
+    scrollElement.scrollTop = element.offsetTop;
+  }
+
   @HostListener('window:keyup.arrowup', ['$event'])
   handleKeyUp(event: KeyboardEvent) {
     if (this.cursor > 0) {
       this.cursor -= 1;
-      this.renderSelectedItemOnInput();
-      this.doesSearch = false;
+      this.handleArrowsPress();
     }
   }
 
@@ -131,9 +128,14 @@ export class AutocompleteComponent implements AfterViewInit, OnInit {
   handleKeyDown(event: KeyboardEvent) {
     if (this.cursor < this.productsNames.length - 1) {
       this.cursor += 1;
-      this.renderSelectedItemOnInput();
-      this.doesSearch = false;
+      this.handleArrowsPress();
     }
+  }
+
+  handleArrowsPress() {
+    this.renderSelectedItemOnInput();
+    this.scrollToSelecetedItem(this.cursor);
+    this.doesSearch = false;
   }
 
   // When clicking outside of the component, clean the input
@@ -142,5 +144,12 @@ export class AutocompleteComponent implements AfterViewInit, OnInit {
     if (!this._el.nativeElement.contains(event.target)) {
       this.cleanUp();
     }
+  }
+
+  showError() {
+    this._toastr.error('Error', 'Item not found', {
+      closeButton: true,
+      progressAnimation: 'increasing',
+    });
   }
 }
