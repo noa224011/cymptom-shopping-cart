@@ -10,10 +10,10 @@ import { IProduct } from 'src/app/interfaces/IProduct';
 export class GetsService {
   constructor(private http: HttpClient) {}
 
-  getProductByName(productName: string) {
+  getProductByName(productName: string | null | undefined) {
     return this.http
       .get<{ product: IProduct }>(
-        `${environment.baseUrl}getProduct/${productName}`
+        `${environment.baseUrl}getProduct/${productName?.trim()}`
       )
       .pipe(map((data) => data.product));
   }
