@@ -10,6 +10,7 @@ import { CartComponent } from './cart/cart.component';
 import { CymptomIconComponent } from './cymptom-icon/cymptom-icon.component';
 import { CartIconComponent } from './cart-icon/cart-icon.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MailIconComponent } from './mail-icon/mail-icon.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
     CartComponent,
     CymptomIconComponent,
     CartIconComponent,
+    MailIconComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
