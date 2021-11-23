@@ -15,19 +15,12 @@
   margin: -100px 0 0 -150px;
 }
 
-.search-box {
-  display: block;
-  margin: 40px auto 0 auto;
-  padding: 10px 20px;
-  max-width: 600px;
-  width: 95%;
-}
-
 .search-results {
   max-width: 600px;
   width: 65%;
   margin: 20px auto 0 auto;
-  overflow-y: auto;
+  overflow: auto;
+  text-overflow: unset;
 }
 
 hr {
@@ -41,7 +34,12 @@ p {
 }
 
 .selected {
-  background-color: lightskyblue;
+  /* background-color: lightskyblue; */
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.hidden {
+  display: none;
 }
 
 .product-name {

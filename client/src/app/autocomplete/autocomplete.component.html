@@ -6,7 +6,7 @@
     aria-label="Search"
     aria-describedby="search-addon"
     (keyup)="sendInput($event)"
-    (keyup.enter)="addItemToCart($event)"
+    (keyup.enter)="addItemToCartByEnter()"
   />
   <button
     type="submit"
@@ -19,14 +19,22 @@
 
 <div class="results-container">
   <section class="search-results">
-    <p *ngIf="productsNames.length < 1 && hasQuery">
+    <p
+      *ngIf="productsNames.length < 1 && hasQuery"
+      [ngClass]="{ hidden: isSearched }"
+    >
       Sorry. No Matching Results.
     </p>
     <ng-template ngFor let-productName [ngForOf]="productsNames" let-i="index">
-      <hr *ngIf="i > 0" />
+      <hr *ngIf="i > 0" [ngClass]="{ hidden: isSearched }" />
       <p
-        (click)="addItemToCart($event)"
-        [ngClass]="{ 'product-name': true, selected: cursor === i }"
+        id="autocomplete-result-{{ i }}"
+        (click)="addItemToCartByClick($event)"
+        [ngClass]="{
+          'product-name': true,
+          selected: cursor === i,
+          hidden: isSearched
+        }"
       >
         {{ productName }}
       </p>

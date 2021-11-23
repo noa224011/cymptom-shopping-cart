@@ -9,7 +9,9 @@
   </thead>
 
   <tbody class="items-container">
-    <p *ngIf="cartItems.length === 0">OOPS! no items in your cart.</p>
+    <div *ngIf="cartItems.length === 0" class="cart-warning">
+      <p>OOPS! no items in your cart.</p>
+    </div>
 
     <tr *ngFor="let item of cartItems">
       <td data-label="Account">
