@@ -22,6 +22,7 @@ export class AutocompleteComponent implements AfterViewInit, OnInit {
   input: string = '';
   valueInput: string | null | undefined = '';
   hasQuery: Boolean = false;
+  doesSearch: Boolean = true;
   isSearched: Boolean = false;
   productError: any = '';
   activeItem: string | null | undefined = '';
@@ -42,13 +43,22 @@ export class AutocompleteComponent implements AfterViewInit, OnInit {
   }
 
   sendInput(event: any) {
+    if (!this.doesSearch) return;
+
     const query: string = event.target.value;
     this.input = query;
     this.activeItem = query;
+    console.log(this.inputRef.textContent);
 
-    if (this.valueInput === '') {
+    if (this.inputRef.textContent === '') {
+      console.log('is this happening?');
       this.productsNames = [];
       this.hasQuery = false;
+
+      this.isSearched = true;
+      this.cursor = -1;
+      this.doesSearch = true;
+      // this.cleanUp();
       return;
     }
 
@@ -60,7 +70,6 @@ export class AutocompleteComponent implements AfterViewInit, OnInit {
     }
 
     this._postsService.searchProducts(query.trim()).subscribe((results) => {
-      console.log('results:', results);
       this.productsNames = results;
       this.hasQuery = true;
       this.isSearched = false;
@@ -88,9 +97,16 @@ export class AutocompleteComponent implements AfterViewInit, OnInit {
     this.cleanUp();
   }
 
+  addItemToCartByButtonClick() {
+    this.getItemFromBackend(this.valueInput?.trim());
+    this.cleanUp();
+  }
+
   cleanUp() {
     this.valueInput = '';
     this.isSearched = true;
+    this.cursor = -1;
+    this.doesSearch = true;
   }
 
   getItemAt = (index: number) => {
@@ -106,16 +122,18 @@ export class AutocompleteComponent implements AfterViewInit, OnInit {
   handleKeyUp(event: KeyboardEvent) {
     if (this.cursor > 0) {
       this.cursor -= 1;
+      this.renderSelectedItemOnInput();
+      this.doesSearch = false;
     }
-    this.renderSelectedItemOnInput();
   }
 
   @HostListener('window:keyup.arrowdown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     if (this.cursor < this.productsNames.length - 1) {
       this.cursor += 1;
+      this.renderSelectedItemOnInput();
+      this.doesSearch = false;
     }
-    this.renderSelectedItemOnInput();
   }
 
   // When clicking outside of the component, clean the input
