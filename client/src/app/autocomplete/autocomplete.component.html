@@ -29,12 +29,10 @@
       <hr *ngIf="i > 0" [ngClass]="{ hidden: isSearched }" />
       <p
         id="autocomplete-result-{{ i }}"
-        (mouseover)="isItemHover = true"
-        (mouseout)="isItemHover = false"
         (click)="addItemToCartByClick($event)"
         [ngClass]="{
           'product-name': true,
-          selected: cursor === i || isItemHover,
+          selected: cursor === i,
           hidden: isSearched
         }"
       >

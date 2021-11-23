@@ -19,7 +19,6 @@ export class AutocompleteComponent implements OnInit {
   hasQuery: Boolean = false;
   doesSearch: Boolean = true;
   isSearched: Boolean = false;
-  isItemHover: Boolean = false;
   productError: any = '';
   activeItem: string | null | undefined = '';
 
@@ -63,7 +62,7 @@ export class AutocompleteComponent implements OnInit {
   }
 
   getItemFromBackend(itemName: string | null | undefined) {
-    this._getsService.getProductByName(itemName).subscribe({
+    this._getsService.getProductByName(itemName?.trim()).subscribe({
       next: (result) => {
         this.cart.push(result);
         this._cartDataService.sendCart(this.cart);
@@ -88,7 +87,7 @@ export class AutocompleteComponent implements OnInit {
   }
 
   addItemToCartByButtonClick() {
-    this.getItemFromBackend(this.valueInput?.trim());
+    this.getItemFromBackend(this.valueInput);
     this.cleanUp();
   }
 
