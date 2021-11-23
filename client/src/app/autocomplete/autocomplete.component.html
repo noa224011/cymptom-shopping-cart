@@ -22,19 +22,13 @@
     <p *ngIf="productsNames.length < 1 && hasQuery">
       Sorry. No Matching Results.
     </p>
-    <ng-template
-      ngFor
-      let-productsNames
-      [ngForOf]="productsNames"
-      let-i="index"
-    >
+    <ng-template ngFor let-productName [ngForOf]="productsNames" let-i="index">
       <hr *ngIf="i > 0" />
       <p
         (click)="addItemToCart($event)"
-        *ngFor="let name of productsNames; let i = index"
         [ngClass]="{ 'product-name': true, selected: cursor === i }"
       >
-        {{ productsNames }}
+        {{ productName }}
       </p>
     </ng-template>
   </section>

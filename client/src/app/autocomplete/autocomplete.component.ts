@@ -37,6 +37,7 @@ export class AutocompleteComponent implements OnInit {
     }
 
     this._postsService.searchProducts(query.trim()).subscribe((results) => {
+      console.log('results:', results);
       this.productsNames = results;
       this.hasQuery = true;
     });
@@ -65,16 +66,20 @@ export class AutocompleteComponent implements OnInit {
   @HostListener('window:keyup.arrowup', ['$event'])
   handleKeyUp(event: KeyboardEvent) {
     if (this.cursor > 0) {
-      this.cursor - 1;
+      this.cursor -= 1;
     }
     console.log('arrowup');
+    console.log('cursur', this.cursor);
   }
 
   @HostListener('window:keyup.arrowdown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     if (this.cursor < this.productsNames.length - 1) {
-      this.cursor + 1;
+      this.cursor += 1;
     }
+    console.log('condition:', this.cursor < this.productsNames.length - 1);
+    console.log('productsNames', this.productsNames);
+    console.log('cursur', this.cursor);
     console.log('arrowdown');
   }
 }
