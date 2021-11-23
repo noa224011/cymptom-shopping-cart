@@ -12,8 +12,9 @@ import { CartDataService } from '../services/cart-data/cart-data.service';
 export class AutocompleteComponent implements OnInit {
   productsNames: Array<IProduct> = [];
   cart: Array<IProduct> = [];
-  cursor: number = 0;
+  cursor: number = -1;
   input: string = '';
+  valueInput: string = '';
   hasQuery: Boolean = false;
   productError: any = '';
 
@@ -28,6 +29,12 @@ export class AutocompleteComponent implements OnInit {
   sendInput(event: any) {
     const query: string = event.target.value;
     this.input = query;
+
+    if (this.valueInput === '') {
+      this.productsNames = [];
+      this.hasQuery = false;
+      return;
+    }
 
     let matchSpaces: any = query.match(/\s*/);
     if (matchSpaces[0] === query) {

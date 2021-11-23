@@ -8,14 +8,14 @@
     </tr>
   </thead>
 
-  <tbody>
+  <tbody class="items-container">
     <p *ngIf="cartItems.length === 0">OOPS! no items in your cart.</p>
 
     <tr *ngFor="let item of cartItems">
       <td data-label="Account">
         {{ item.name }}
       </td>
-      <td data-label="image">
+      <td data-label="image" class="image-container">
         <img class="image" [src]="item.image" alt="" />
       </td>
       <td data-label="Amount">${{ item.price }}</td>
