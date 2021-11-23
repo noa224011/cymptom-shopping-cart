@@ -1,5 +1,4 @@
-// const data = require("../../assets/products.json");
-const data = require("../../assets/bla.json");
+const data = require("../../assets/products.json");
 
 module.exports = {
   getProductByName: (req, res) => {

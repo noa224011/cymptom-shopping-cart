@@ -1,5 +1,4 @@
-// const data = require("../../assets/products.json");
-const data = require("../../assets/bla.json");
+const data = require("../../assets/products.json");
 
 module.exports = {
   getSearchResults: (req, res) => {
@@ -11,7 +10,10 @@ module.exports = {
     const regex = new RegExp(searchQuery, "gi");
     const matchingData = data
       .map((product) => product.name)
-      .filter((name) => name.match(regex));
+      .filter((name) => name !== null)
+      .filter((name) => {
+        return name.match(regex);
+      });
 
     const searchResults = matchingData.slice(0, 20);
     res.status(200).json({ searchQuery: searchResults });
