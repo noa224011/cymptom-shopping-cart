@@ -3,6 +3,7 @@ import { PostsService } from '../services/posts/posts.service';
 import { GetsService } from '../services/gets/gets.service';
 import { IProduct } from '../interfaces/IProduct';
 import { CartDataService } from '../services/cart-data/cart-data.service';
+import { LocalStorageService } from '../services/local-storage/local-storage-service.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -26,11 +27,15 @@ export class AutocompleteComponent implements OnInit {
     private _postsService: PostsService,
     private _getsService: GetsService,
     private _cartDataService: CartDataService,
+    private _localStorageService: LocalStorageService,
     private _el: ElementRef,
     private _toastr: ToastrService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.cart = this._localStorageService.getInfo('cart');
+    this._cartDataService.sendCart(this.cart);
+  }
 
   sendInput(event: any) {
     if (!this.doesSearch) return;
@@ -65,6 +70,7 @@ export class AutocompleteComponent implements OnInit {
     this._getsService.getProductByName(itemName?.trim()).subscribe({
       next: (result) => {
         this.cart.push(result);
+        this._localStorageService.setInfo('cart', this.cart);
         this._cartDataService.sendCart(this.cart);
         console.log(result);
       },
