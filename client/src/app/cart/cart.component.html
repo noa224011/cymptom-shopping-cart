@@ -9,18 +9,21 @@
   </thead>
 
   <tbody class="items-container">
-    <div *ngIf="cartItems.length === 0" class="cart-warning">
+    <div
+      *ngIf="cartItems.length === 0 && !isFromLocalStorage"
+      class="cart-warning"
+    >
       <p>OOPS! no items in your cart.</p>
     </div>
     <tr *ngFor="let item of cartItems">
-      <td data-label="Account">
+      <td data-label="Account" *ngIf="isFromLocalStorage">
         {{ item.name }}
       </td>
-      <td data-label="image" class="image-container">
+      <td data-label="image" class="image-container" *ngIf="isFromLocalStorage">
         <img class="image" [src]="item.image" alt="" />
       </td>
-      <td data-label="Amount">${{ item.price }}</td>
-      <td data-label="delete">
+      <td data-label="Amount" *ngIf="isFromLocalStorage">${{ item.price }}</td>
+      <td data-label="delete" *ngIf="isFromLocalStorage">
         <i class="bi bi-trash trash" (click)="deleteItem(item.sku)"></i>
       </td>
     </tr>

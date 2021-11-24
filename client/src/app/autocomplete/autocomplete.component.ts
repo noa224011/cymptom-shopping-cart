@@ -33,6 +33,8 @@ export class AutocompleteComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const item = this._localStorageService.getInfo('cart');
+    if (Object.keys(item).length === 0) return;
     this.cart = this._localStorageService.getInfo('cart');
     this._cartDataService.sendCart(this.cart);
   }
@@ -69,6 +71,7 @@ export class AutocompleteComponent implements OnInit {
   getItemFromBackend(itemName: string | null | undefined) {
     this._getsService.getProductByName(itemName?.trim()).subscribe({
       next: (result) => {
+        console.log('cart:', this.cart);
         this.cart.push(result);
         this._localStorageService.setInfo('cart', this.cart);
         this._cartDataService.sendCart(this.cart);

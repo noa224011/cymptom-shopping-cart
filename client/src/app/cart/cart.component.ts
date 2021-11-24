@@ -12,6 +12,7 @@ import { LocalStorageService } from '../services/local-storage/local-storage-ser
 export class CartComponent implements OnInit {
   cartItems: Array<IProduct> = [];
   productError: any = '';
+  isFromLocalStorage: Boolean = false;
 
   constructor(
     private _cartDataService: CartDataService,
@@ -23,6 +24,15 @@ export class CartComponent implements OnInit {
     this._cartDataService._cartDataSource$.subscribe((cart) => {
       this.cartItems = cart;
     });
+    const item = this._localStorageService.getInfo('cart');
+    if (Object.keys(item).length === 0) {
+      this.isFromLocalStorage = false;
+    } else {
+      this.cartItems = this._localStorageService.getInfo('cart');
+      this.isFromLocalStorage = true;
+    }
+    console.log('isFromLocalStorage', this.isFromLocalStorage);
+    console.log(this.cartItems.length);
   }
 
   deleteItem(sku: number) {
