@@ -1,0 +1,43 @@
+<div class="input-group w-25 search-container">
+  <input
+    [(ngModel)]="valueInput"
+    class="form-control rounded"
+    placeholder="Search"
+    aria-label="Search"
+    aria-describedby="search-addon"
+    (keyup)="sendInput($event)"
+    (keyup.enter)="addItemToCartByEnter()"
+  />
+  <button
+    type="submit"
+    class="btn btn-outline-primary"
+    (click)="addItemToCartByButtonClick()"
+  >
+    search
+  </button>
+</div>
+
+<div class="results-container">
+  <section class="search-results">
+    <p
+      *ngIf="productsNames.length < 1 && hasQuery"
+      [ngClass]="{ hidden: isSearched }"
+    >
+      Sorry. No Matching Results.
+    </p>
+    <ng-template ngFor let-productName [ngForOf]="productsNames" let-i="index">
+      <hr *ngIf="i > 0" [ngClass]="{ hidden: isSearched }" />
+      <p
+        id="autocomplete-result-{{ i }}"
+        (click)="addItemToCartByClick($event)"
+        [ngClass]="{
+          'product-name': true,
+          selected: cursor === i,
+          hidden: isSearched
+        }"
+      >
+        {{ productName }}
+      </p>
+    </ng-template>
+  </section>
+</div>
