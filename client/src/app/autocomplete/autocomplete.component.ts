@@ -47,7 +47,6 @@ export class AutocompleteComponent implements OnInit {
     this.activeItem = query;
 
     if (this.valueInput === '') {
-      console.log('is this happening?');
       this.productsNames = [];
       this.hasQuery = false;
       this.cleanUp();
@@ -71,11 +70,9 @@ export class AutocompleteComponent implements OnInit {
   getItemFromBackend(itemName: string | null | undefined) {
     this._getsService.getProductByName(itemName?.trim()).subscribe({
       next: (result) => {
-        console.log('cart:', this.cart);
         this.cart.push(result);
         this._localStorageService.setInfo('cart', this.cart);
         this._cartDataService.sendCart(this.cart);
-        console.log(result);
       },
       error: (error) => {
         this.productError = error;

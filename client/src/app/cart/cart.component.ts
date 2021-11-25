@@ -31,8 +31,6 @@ export class CartComponent implements OnInit {
       this.cartItems = this._localStorageService.getInfo('cart');
       this.isFromLocalStorage = true;
     }
-    console.log('isFromLocalStorage', this.isFromLocalStorage);
-    console.log(this.cartItems.length);
   }
 
   deleteItem(sku: number) {
