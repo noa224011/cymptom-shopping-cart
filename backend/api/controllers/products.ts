@@ -1,22 +1,17 @@
 import { IProduct } from "../../inerfaces/IProduct";
 import { data } from "./data";
+import { productFormatBuilder } from "../helpers/formatBuilder";
 
 export = {
   getProductByName: (req, res) => {
     const productName = req.params.productName;
-    const finalProductArray = data.filter(
-      (product: IProduct) => product.name === productName
+    const finalProduct: IProduct = data.find(
+      (product) => product.name === productName
     );
-    if (finalProductArray.length === 0) {
+    if (!finalProduct) {
       throw { status: 404, message: "Product name not found" };
     } else {
-      const finalProduct = finalProductArray[0];
-      const formatProduct = {
-        name: finalProduct.name,
-        image: finalProduct.image,
-        price: finalProduct.price,
-        sku: finalProduct.sku,
-      };
+      const formatProduct: IProduct = productFormatBuilder(finalProduct);
       res.status(200).json({
         product: formatProduct,
       });
@@ -24,19 +19,13 @@ export = {
   },
   getProductById: (req, res) => {
     const productId = +req.params.productId;
-    const finalProductArray = data.filter(
+    const finalProduct: IProduct = data.find(
       (product) => product.sku === productId
     );
-    if (finalProductArray.length === 0) {
+    if (!finalProduct) {
       throw { status: 404, message: "Product id not found" };
     } else {
-      const finalProduct = finalProductArray[0];
-      const formatProduct = {
-        name: finalProduct.name,
-        image: finalProduct.image,
-        price: finalProduct.price,
-        sku: finalProduct.sku,
-      };
+      const formatProduct: IProduct = productFormatBuilder(finalProduct);
       res.status(200).json({
         product: formatProduct,
       });
