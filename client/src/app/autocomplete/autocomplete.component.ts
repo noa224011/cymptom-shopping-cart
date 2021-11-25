@@ -5,6 +5,7 @@ import { IProduct } from '../interfaces/IProduct';
 import { CartDataService } from '../services/cart-data/cart-data.service';
 import { LocalStorageService } from '../services/local-storage/local-storage-service.service';
 import { ToastrService } from 'ngx-toastr';
+import { scrollToElement } from '../helpers/scroll';
 
 @Component({
   selector: 'app-autocomplete',
@@ -82,6 +83,13 @@ export class AutocompleteComponent implements OnInit {
     });
   }
 
+  showError() {
+    this._toastr.error('Error', 'Item not found', {
+      closeButton: true,
+      progressAnimation: 'increasing',
+    });
+  }
+
   addItemToCartByEnter() {
     this.getItemFromBackend(this.activeItem);
     this.cleanUp();
@@ -113,12 +121,11 @@ export class AutocompleteComponent implements OnInit {
     this.valueInput = this.activeItem;
   }
 
-  scrollToSelecetedItem(index: number) {
-    const element: any = document.querySelector(
-      `#autocomplete-result-${index}`
-    );
-    const scrollElement: any = document.querySelector('.results-container');
-    scrollElement.scrollTop = element.offsetTop;
+  scrollToSelecetedProduct(index: number) {
+    const scrollElement: any = '.results-container';
+    const element: any = `#autocomplete-result-${index}`;
+
+    scrollToElement(scrollElement, element);
   }
 
   @HostListener('window:keyup.arrowup', ['$event'])
@@ -139,7 +146,7 @@ export class AutocompleteComponent implements OnInit {
 
   handleArrowsPress() {
     this.renderSelectedItemOnInput();
-    this.scrollToSelecetedItem(this.cursor);
+    this.scrollToSelecetedProduct(this.cursor);
     this.doesSearch = false;
   }
 
@@ -149,12 +156,5 @@ export class AutocompleteComponent implements OnInit {
     if (!this._el.nativeElement.contains(event.target)) {
       this.cleanUp();
     }
-  }
-
-  showError() {
-    this._toastr.error('Error', 'Item not found', {
-      closeButton: true,
-      progressAnimation: 'increasing',
-    });
   }
 }
