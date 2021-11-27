@@ -17,6 +17,7 @@ export = {
         return name.match(regex);
       });
 
-    res.status(200).json({ searchQuery: matchingData });
+    const searchResults = matchingData.slice(0, 20);
+    res.status(200).json({ searchQuery: searchResults });
   },
 };
