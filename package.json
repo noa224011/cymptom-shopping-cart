@@ -1,0 +1,22 @@
+{
+  "name": "cymptom-fullstack-hometask",
+  "version": "1.0.0",
+  "description": "Using: Angular 13, Node.js",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && npm install && npm start",
+    "backend": "cd backend && npm install && node .",
+    "dev": "concurrently \"npm run backend\" \"npm run client\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noa224011/cymptom-shopping-cart.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/noa224011/cymptom-shopping-cart/issues"
+  },
+  "homepage": "https://github.com/noa224011/cymptom-shopping-cart#readme"
+}
