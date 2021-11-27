@@ -16,7 +16,6 @@ export class AutocompleteComponent implements OnInit {
   productsNames: Array<IProduct> = [];
   cart: Array<IProduct> = [];
   cursor: number = -1;
-  input: string = '';
   valueInput: string | null | undefined = '';
   hasQuery: Boolean = false;
   doesSearch: Boolean = true;
@@ -35,7 +34,9 @@ export class AutocompleteComponent implements OnInit {
 
   ngOnInit(): void {
     const item = this._localStorageService.getInfo('cart');
+
     if (Object.keys(item).length === 0) return;
+
     this.cart = this._localStorageService.getInfo('cart');
     this._cartDataService.sendCart(this.cart);
   }
@@ -44,7 +45,6 @@ export class AutocompleteComponent implements OnInit {
     if (!this.doesSearch) return;
 
     const query: string = event.target.value;
-    this.input = query;
     this.activeItem = query;
 
     if (this.valueInput === '') {
@@ -129,7 +129,7 @@ export class AutocompleteComponent implements OnInit {
   }
 
   @HostListener('window:keyup.arrowup', ['$event'])
-  handleKeyUp(event: KeyboardEvent) {
+  handleKeyUp() {
     if (this.cursor > 0) {
       this.cursor -= 1;
       this.handleArrowsPress();
@@ -137,7 +137,7 @@ export class AutocompleteComponent implements OnInit {
   }
 
   @HostListener('window:keyup.arrowdown', ['$event'])
-  handleKeyDown(event: KeyboardEvent) {
+  handleKeyDown() {
     if (this.cursor < this.productsNames.length - 1) {
       this.cursor += 1;
       this.handleArrowsPress();
@@ -152,7 +152,7 @@ export class AutocompleteComponent implements OnInit {
 
   // When clicking outside of the component, clean the input
   @HostListener('document:click', ['$event'])
-  clickout(event: { target: any }) {
+  clickOut(event: { target: any }) {
     if (!this._el.nativeElement.contains(event.target)) {
       this.cleanUp();
     }
