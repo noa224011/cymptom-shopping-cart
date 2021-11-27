@@ -6,6 +6,8 @@ Using: Angular 13, Node.js
 
 On this directory, run:
 
+### `npm install`
+
 ### `npm run dev`
 
 Navigate to `http://localhost:4200/`.
