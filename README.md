@@ -16,5 +16,5 @@ Go to the backend directory, and then run:
 
 ### `npm start`
 
-Navigate to `http://localhost:4200/`./
+Navigate to `http://localhost:4200/`.
 The app will automatically reload if you change any of the source files.
