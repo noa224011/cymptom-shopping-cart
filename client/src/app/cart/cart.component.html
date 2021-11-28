@@ -39,7 +39,7 @@
         data-label="delete"
         *ngIf="isFromLocalStorage || cartItems.length !== 0"
       >
-        <i class="bi bi-trash trash" (click)="deleteItemFromCart(item.sku)"></i>
+        <i class="bi bi-trash trash" (click)="deleteItem(item.sku)"></i>
       </td>
     </tr>
   </tbody>

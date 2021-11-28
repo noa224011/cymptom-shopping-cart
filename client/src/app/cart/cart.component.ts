@@ -13,15 +13,15 @@ export class CartComponent implements OnInit {
   @Input() cartItems: Array<IProduct> = [];
   @Input() isFromLocalStorage: Boolean = false;
 
-  constructor(private _localStorageService: LocalStorageService) {}
+  constructor(private _cartDataService: CartDataService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._cartDataService._cartDataSource$.subscribe((cart) => {
+      this.cartItems = cart;
+    });
+  }
 
-  deleteItemFromCart(sku: number) {
-    const itemIndex = this.cartItems.findIndex((item) => item.sku === sku);
-    if (itemIndex !== -1) {
-      this.cartItems.splice(itemIndex, 1);
-      this._localStorageService.setInfo('cart', this.cartItems);
-    }
+  deleteItem(sku: number) {
+    this._cartDataService.deleteItemFromCart(sku, this.cartItems);
   }
 }
