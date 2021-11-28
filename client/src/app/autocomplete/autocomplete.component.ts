@@ -125,7 +125,6 @@ export class AutocompleteComponent implements OnInit {
   }
 
   cleanUp() {
-    console.log('is this happening?');
     this.valueInput = '';
     this.isSearched = true;
     this.cursor = -1;

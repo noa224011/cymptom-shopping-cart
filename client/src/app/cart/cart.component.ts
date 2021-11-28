@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IProduct } from '../interfaces/IProduct';
 import { CartDataService } from '../services/cart-data/cart-data.service';
-import { ProductProviderService } from '../services/product-provider/product-provider.service';
 import { LocalStorageService } from '../services/local-storage/local-storage-service.service';
 import _ from 'lodash';
 
