@@ -5,6 +5,7 @@ import { CartDataService } from '../services/cart-data/cart-data.service';
 import { LocalStorageService } from '../services/local-storage/local-storage-service.service';
 import { ToastrService } from 'ngx-toastr';
 import { scrollToElement } from '../helpers/scroll';
+import { SpinnerVisibilityService } from 'ng-http-loader';
 
 @Component({
   selector: 'app-autocomplete',
@@ -21,13 +22,15 @@ export class AutocompleteComponent implements OnInit {
   isSearched: Boolean = false;
   productError: any = '';
   activeItem: any = '';
+  timeout: any = null;
 
   constructor(
     private _productProviderService: ProductProviderService,
     private _cartDataService: CartDataService,
     private _localStorageService: LocalStorageService,
     private _el: ElementRef,
-    private _toastr: ToastrService
+    private _toastr: ToastrService,
+    private _spinner: SpinnerVisibilityService
   ) {}
 
   ngOnInit(): void {
@@ -48,6 +51,7 @@ export class AutocompleteComponent implements OnInit {
     if (this.valueInput === '') {
       this.productsNames = [];
       this.hasQuery = false;
+      this._spinner.hide();
       this.cleanUp();
       return;
     }
@@ -56,16 +60,31 @@ export class AutocompleteComponent implements OnInit {
     if (matchSpaces[0] === query) {
       this.productsNames = [];
       this.hasQuery = false;
+      this._spinner.hide();
       return;
     }
 
-    this._productProviderService
-      .searchProducts(query.trim())
-      .subscribe((results) => {
-        this.productsNames = results;
-        this.isSearched = false;
-        this.hasQuery = true;
-      });
+    this.onKeySearch(event, () => {
+      this._productProviderService
+        .searchProducts(query.trim())
+        .subscribe((results) => {
+          this.productsNames = results;
+          this.isSearched = false;
+          this.hasQuery = true;
+          this._spinner.hide();
+        });
+    });
+  }
+
+  onKeySearch(event: any, callback: any) {
+    clearTimeout(this.timeout);
+    this._spinner.show();
+
+    this.timeout = setTimeout(() => {
+      if (event.keyCode != 13 && event.keyCode != 40 && event.keyCode != 38) {
+        callback();
+      }
+    }, 500);
   }
 
   getItemFromBackend(itemName: string) {
@@ -78,7 +97,7 @@ export class AutocompleteComponent implements OnInit {
       error: (error) => {
         this.productError = error;
         this.showError();
-        this.isSearched = true;
+        this.cleanUp();
       },
     });
   }
@@ -110,6 +129,7 @@ export class AutocompleteComponent implements OnInit {
     this.isSearched = true;
     this.cursor = -1;
     this.doesSearch = true;
+    this._spinner.hide();
   }
 
   getItemAt = (index: number) => {
@@ -130,6 +150,7 @@ export class AutocompleteComponent implements OnInit {
 
   @HostListener('window:keyup.arrowup', ['$event'])
   handleKeyUp() {
+    this._spinner.hide();
     if (this.cursor > 0) {
       this.cursor -= 1;
       this.handleArrowsPress();
@@ -138,6 +159,7 @@ export class AutocompleteComponent implements OnInit {
 
   @HostListener('window:keyup.arrowdown', ['$event'])
   handleKeyDown() {
+    this._spinner.hide();
     if (this.cursor < this.productsNames.length - 1) {
       this.cursor += 1;
       this.handleArrowsPress();

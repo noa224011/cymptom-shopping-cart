@@ -5,5 +5,8 @@
   <app-autocomplete></app-autocomplete>
 </div>
 <div>
-  <app-cart> </app-cart>
+  <app-cart
+    [cartItems]="cartItems"
+    [isFromLocalStorage]="isFromLocalStorage"
+  ></app-cart>
 </div>

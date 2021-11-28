@@ -25,6 +25,7 @@
     >
       Sorry. No Matching Results.
     </p>
+    <ng-http-loader></ng-http-loader>
     <ng-template ngFor let-productName [ngForOf]="productsNames" let-i="index">
       <hr *ngIf="i > 0" [ngClass]="{ hidden: isSearched }" />
       <p
