@@ -12,7 +12,6 @@ import _ from 'lodash';
 })
 export class CartComponent implements OnInit {
   cartItems: Array<IProduct> = [];
-  productError: any = '';
   isFromLocalStorage: Boolean = false;
 
   constructor(
@@ -34,13 +33,11 @@ export class CartComponent implements OnInit {
     }
   }
 
-  deleteItem(sku: number) {
-    this._productProviderService.getProductById(sku).subscribe({
-      next: (result) => {
-        _.remove(this.cartItems, (item) => item.sku === result.sku);
-        this._localStorageService.setInfo('cart', this.cartItems);
-      },
-      error: (error) => (this.productError = error),
-    });
+  deleteItemFromCart(sku: number) {
+    const itemIndex = this.cartItems.findIndex((item) => item.sku === sku);
+    if (itemIndex !== -1) {
+      this.cartItems.splice(itemIndex, 1);
+      this._localStorageService.setInfo('cart', this.cartItems);
+    }
   }
 }

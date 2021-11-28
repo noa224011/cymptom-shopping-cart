@@ -24,7 +24,7 @@
       </td>
       <td data-label="Amount" *ngIf="isFromLocalStorage">${{ item.price }}</td>
       <td data-label="delete" *ngIf="isFromLocalStorage">
-        <i class="bi bi-trash trash" (click)="deleteItem(item.sku)"></i>
+        <i class="bi bi-trash trash" (click)="deleteItemFromCart(item.sku)"></i>
       </td>
     </tr>
   </tbody>
