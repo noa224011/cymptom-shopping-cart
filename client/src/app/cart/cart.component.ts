@@ -11,26 +11,11 @@ import _ from 'lodash';
 })
 export class CartComponent implements OnInit {
   @Input() cartItems: Array<IProduct> = [];
-  isFromLocalStorage: Boolean = false;
+  @Input() isFromLocalStorage: Boolean = false;
 
-  constructor(
-    private _cartDataService: CartDataService,
-    private _localStorageService: LocalStorageService
-  ) {}
+  constructor(private _localStorageService: LocalStorageService) {}
 
-  ngOnInit(): void {
-    this._cartDataService._cartDataSource$.subscribe((cart) => {
-      this.cartItems = cart;
-    });
-
-    const cart = this._localStorageService.getInfo('cart');
-    if (Object.keys(cart).length === 0) {
-      this.isFromLocalStorage = false;
-    } else {
-      this.cartItems = this._localStorageService.getInfo('cart');
-      this.isFromLocalStorage = true;
-    }
-  }
+  ngOnInit(): void {}
 
   deleteItemFromCart(sku: number) {
     const itemIndex = this.cartItems.findIndex((item) => item.sku === sku);
