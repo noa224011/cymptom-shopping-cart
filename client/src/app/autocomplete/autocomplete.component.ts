@@ -81,7 +81,7 @@ export class AutocompleteComponent implements OnInit {
     this._spinner.show();
 
     this.timeout = setTimeout(() => {
-      if (event.keyCode != 13) {
+      if (event.keyCode != 13 && event.keyCode != 40 && event.keyCode != 38) {
         callback();
       }
     }, 500);
