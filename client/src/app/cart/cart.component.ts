@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IProduct } from '../interfaces/IProduct';
 import { CartDataService } from '../services/cart-data/cart-data.service';
-import { GetsService } from '../services/gets/gets.service';
+import { ProductProviderService } from '../services/product-provider/product-provider.service';
 import { LocalStorageService } from '../services/local-storage/local-storage-service.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class CartComponent implements OnInit {
 
   constructor(
     private _cartDataService: CartDataService,
-    private _getsService: GetsService,
+    private _productProviderService: ProductProviderService,
     private _localStorageService: LocalStorageService
   ) {}
 
@@ -34,7 +34,7 @@ export class CartComponent implements OnInit {
   }
 
   deleteItem(sku: number) {
-    this._getsService.getProductById(sku).subscribe({
+    this._productProviderService.getProductById(sku).subscribe({
       next: (result) => {
         const itemIndex = this.cartItems.findIndex(
           (item) => item.sku === result.sku
