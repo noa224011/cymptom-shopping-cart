@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit, ElementRef } from '@angular/core';
-import { PostsService } from '../services/posts/posts.service';
-import { GetsService } from '../services/gets/gets.service';
+import { ProductProviderService } from '../services/product-provider/product-provider.service';
 import { IProduct } from '../interfaces/IProduct';
 import { CartDataService } from '../services/cart-data/cart-data.service';
 import { LocalStorageService } from '../services/local-storage/local-storage-service.service';
@@ -16,16 +15,15 @@ export class AutocompleteComponent implements OnInit {
   productsNames: Array<IProduct> = [];
   cart: Array<IProduct> = [];
   cursor: number = -1;
-  valueInput: string | null | undefined = '';
+  valueInput: string = '';
   hasQuery: Boolean = false;
   doesSearch: Boolean = true;
   isSearched: Boolean = false;
   productError: any = '';
-  activeItem: string | null | undefined = '';
+  activeItem: any = '';
 
   constructor(
-    private _postsService: PostsService,
-    private _getsService: GetsService,
+    private _productProviderService: ProductProviderService,
     private _cartDataService: CartDataService,
     private _localStorageService: LocalStorageService,
     private _el: ElementRef,
@@ -61,15 +59,17 @@ export class AutocompleteComponent implements OnInit {
       return;
     }
 
-    this._postsService.searchProducts(query.trim()).subscribe((results) => {
-      this.productsNames = results;
-      this.isSearched = false;
-      this.hasQuery = true;
-    });
+    this._productProviderService
+      .searchProducts(query.trim())
+      .subscribe((results) => {
+        this.productsNames = results;
+        this.isSearched = false;
+        this.hasQuery = true;
+      });
   }
 
-  getItemFromBackend(itemName: string | null | undefined) {
-    this._getsService.getProductByName(itemName?.trim()).subscribe({
+  getItemFromBackend(itemName: string) {
+    this._productProviderService.getProductByName(itemName?.trim()).subscribe({
       next: (result) => {
         this.cart.push(result);
         this._localStorageService.setInfo('cart', this.cart);
