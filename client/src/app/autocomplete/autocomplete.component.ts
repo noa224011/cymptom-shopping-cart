@@ -84,7 +84,7 @@ export class AutocompleteComponent implements OnInit {
       if (event.keyCode != 13) {
         callback();
       }
-    }, 2000);
+    }, 500);
   }
 
   getItemFromBackend(itemName: string) {
