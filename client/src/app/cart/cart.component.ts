@@ -3,6 +3,7 @@ import { IProduct } from '../interfaces/IProduct';
 import { CartDataService } from '../services/cart-data/cart-data.service';
 import { ProductProviderService } from '../services/product-provider/product-provider.service';
 import { LocalStorageService } from '../services/local-storage/local-storage-service.service';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-cart',
@@ -36,13 +37,8 @@ export class CartComponent implements OnInit {
   deleteItem(sku: number) {
     this._productProviderService.getProductById(sku).subscribe({
       next: (result) => {
-        const itemIndex = this.cartItems.findIndex(
-          (item) => item.sku === result.sku
-        );
-        if (itemIndex !== -1) {
-          this.cartItems.splice(itemIndex, 1);
-          this._localStorageService.setInfo('cart', this.cartItems);
-        }
+        _.remove(this.cartItems, (item) => item.sku === result.sku);
+        this._localStorageService.setInfo('cart', this.cartItems);
       },
       error: (error) => (this.productError = error),
     });
