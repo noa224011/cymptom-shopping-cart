@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { IProduct } from '../interfaces/IProduct';
 import { CartDataService } from '../services/cart-data/cart-data.service';
 import { ProductProviderService } from '../services/product-provider/product-provider.service';
@@ -11,12 +11,11 @@ import _ from 'lodash';
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-  cartItems: Array<IProduct> = [];
+  @Input() cartItems: Array<IProduct> = [];
   isFromLocalStorage: Boolean = false;
 
   constructor(
     private _cartDataService: CartDataService,
-    private _productProviderService: ProductProviderService,
     private _localStorageService: LocalStorageService
   ) {}
 
@@ -24,8 +23,9 @@ export class CartComponent implements OnInit {
     this._cartDataService._cartDataSource$.subscribe((cart) => {
       this.cartItems = cart;
     });
-    const item = this._localStorageService.getInfo('cart');
-    if (Object.keys(item).length === 0) {
+
+    const cart = this._localStorageService.getInfo('cart');
+    if (Object.keys(cart).length === 0) {
       this.isFromLocalStorage = false;
     } else {
       this.cartItems = this._localStorageService.getInfo('cart');
